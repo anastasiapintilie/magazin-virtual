@@ -16,7 +16,7 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 // };
 
 function App() {
-
+  const [isAdmin, setIsAdmin] = useState(false);
   const [productsList, setProductsList] = useState([]);
   useLayoutEffect(()=>{
     Axios.get("http://localhost:3001/products").then((response) => {
@@ -35,7 +35,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Navbar  productsList={productsList}  setProductsList={setProductsList}/>
+        <Navbar  productsList={productsList}  setProductsList={setProductsList} isAdmin={isAdmin} setIsAdmin={setIsAdmin}/>
         <Switch> 
         <Route exact path='/login'>
           <Login />
@@ -44,8 +44,10 @@ function App() {
           <AddProductForm productsList={productsList}  setProductsList={setProductsList}/>
         </Route> 
         </Switch>
+        <h2><strong>{isAdmin? 'Admin mode':'Regular User mode'}</strong></h2>
+
         <div className="product-catalog">
-        {productsList.map(product =><ProductCard product={product}  productsList={productsList}  setProductsList={setProductsList}/>) }
+        {productsList.map(product =><ProductCard product={product}  productsList={productsList}  setProductsList={setProductsList}  isAdmin={isAdmin} />) }
         </div>
       </div>
     </Router>

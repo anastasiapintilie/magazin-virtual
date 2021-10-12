@@ -6,4 +6,17 @@
 }
 .product-catalog .product-card{
   margin: 0;
+  height: inherit;
+  max-width: 250px;
+
+}
+.product-catalog .product-card .image{
+  width: 250px!important;
+}
+.product-catalog .product-card .image img{
+  height: 230px;
+}
+
+.product-catalog .product-card .content{
+  max-height: 100px;
 }

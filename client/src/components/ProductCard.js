@@ -13,7 +13,7 @@ const {
     category_name,
     product_image,} = props.product;
 
-const {productsList,setProductsList}=props;
+const {productsList,setProductsList,isAdmin}=props;
 const deleteProduct = (id) => {
     Axios.delete(`http://localhost:3001/products/${id}`).then((response) => {
       setProductsList(
@@ -28,17 +28,18 @@ const extra =(product_id)=> (
 <span className='card-buttons'>
     <Button size='mini' inverted color='green'>      
         <Icon name='cart arrow down' />
-      Adauga in cos
     </Button>
     <Button size='mini' primary>      
-        Detalii
+        D
     </Button>
-    <Button size='mini' inverted color='red' onClick={()=> deleteProduct(product_id)}>      
+{ isAdmin &&  <span>
+   <Button size='mini' inverted color='red' onClick={()=> deleteProduct(product_id)}>      
        <Icon name='trash alternate' />
     </Button>
     <Button size='mini' inverted color='blue'>      
        <Icon name='pencil alternate' />
     </Button>
+   </span>}
 </span>
   )
 
