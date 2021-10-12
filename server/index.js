@@ -46,7 +46,7 @@ app.post('/products',(req,res)=>{
 
 app.delete("/products/:id", (req, res) => {
     const id = req.params.id;
-    db.query("DELETE FROM products WHERE id = ?", id, (err, result) => {
+    db.query("DELETE FROM products WHERE product_id = ?", id, (err, result) => {
       if (err) {
         console.log(err);
       } else {
