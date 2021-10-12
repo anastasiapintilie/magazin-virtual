@@ -72,6 +72,9 @@ function AddProductForm({setProductsList,productsList}) {
             <option value='RPG'>RPG</option>
             <option value='Simulation'>Simulation</option>
             <option value='Shooter'>Shooter</option>
+            <option value='Horror'>Horror</option>
+            <option value='Survival'>Survival</option>
+
         </Form.Field>
       </Form> 
       </Modal.Content>
