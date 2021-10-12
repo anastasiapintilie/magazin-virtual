@@ -1,0 +1,35 @@
+.App {
+  text-align: center;
+}
+.product-catalog{
+  max-width: 1200px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-top:30px;
+}
+
+.navigation-bar{
+  height: 2.5em;
+  background: #92a2b8;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  color: black;
+}
+
+.navigation-bar a{
+  text-decoration:none;
+  font-weight: 800;
+  align-items: center;
+  align-self: center;
+  height: 100%;
+  color:darkblue;
+  padding: 0 10px 0 10px;
+}
+
+.navigation-bar a:hover{
+  background-color:#464478;
+  color:white;
+}

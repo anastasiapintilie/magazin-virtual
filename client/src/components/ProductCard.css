@@ -1,0 +1,9 @@
+
+
+.card-buttons{
+    display: flex;
+    justify-content: space-evenly;
+}
+.product-catalog .product-card{
+  margin: 0;
+}
