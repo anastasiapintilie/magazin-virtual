@@ -54,6 +54,22 @@ app.delete("/products/:id", (req, res) => {
       }
     });
   });
+  app.put("/products/:id", (req, res) => {
+    const id = req.body.id;
+    const{category_name,product_name,product_details,price, product_image}=req.body;
+
+    db.query(
+      "update products set category_name=?, product_name=?, product_details=?, price=?, product_image=? where product_id=?;",
+      [category_name,product_name,product_details,price, product_image, id],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.send(result);
+        }
+      }
+    );
+  });
 
 app.listen(3001, ()=>{
     console.log("server running on port 3001....");
