@@ -12,7 +12,11 @@ const {
     product_details, 
     price, 
     category_name,
-    product_image,} = props.product;
+    product_image} = props.product;
+  const {
+    productsInCart,
+    setProductsInCart
+  } = props;
     const [openDetails, setOpenDetails] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
 
@@ -153,7 +157,8 @@ const detailsButton = (<Modal
       Cancel
     </Button>
   </Modal.Actions>
-</Modal>)
+</Modal>);
+
 
 const deleteProduct = (id) => {
     Axios.delete(`http://localhost:3001/products/${id}`).then((response) => {
@@ -165,10 +170,26 @@ const deleteProduct = (id) => {
       console.log('deleteing program '+id);
     });
   };
+
+  const addToCart= (id)=>{
+    const bodyOfReq = {
+      category_name:categoryName,
+      product_name:productName,
+      product_details:productDetails,
+      price:price, 
+      product_image:productImage}
+    Axios.post("http://localhost:3001/shoppingcart", {product_id:id}).then(()=>{setProductsInCart([...productsInCart,{ category_name:categoryName,
+    product_name:productName,
+    product_details:productDetails,
+    price:price, 
+    product_image:productImage,
+    quantity:1}])});
+  }
+
 const extra =(product_id)=> (
 <span className='card-buttons'>
 { !isAdmin && <span id="userButtons">
-  <Button size='mini' inverted color='green'>      
+  <Button size='mini' inverted color='green' onClick={()=>{addToCart(product_id)}}>      
         <Icon name='cart arrow down' />
     </Button>
     {detailsButton}

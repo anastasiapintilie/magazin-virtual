@@ -70,6 +70,34 @@ app.delete("/products/:id", (req, res) => {
       }
     );
   });
+  app.get('/shoppingcart',(req,res)=>{
+    db.query("select cart.quantity, products.product_id, products.product_image,products.product_name,products.price from cart inner join products on cart.product_id=products.product_id;", (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.send(result);
+        }
+      });
+})
+
+  app.post('/shoppingcart',(req,res)=>{
+    const{product_id}=req.body;
+    console.log("in post /shoppingcart")
+    console.log(req.body.product_id);
+    db.query('insert into cart(product_id) values (?);',
+    [product_id], 
+    (err,result)=>{
+        if(err){
+            console.log('eroare la adaugare produs in cos',err);
+            res.status(500).json(err)
+        }
+        else{
+            console.log('produs adaugat in cos');
+            res.status(200).json(err)
+
+        }
+    });
+});
 
 app.listen(3001, ()=>{
     console.log("server running on port 3001....");

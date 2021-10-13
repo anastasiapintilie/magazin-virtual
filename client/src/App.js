@@ -7,7 +7,7 @@ import ProductCard from './components/ProductCard.js'
 import Login from './components/Login';
 import Navbar from './components/Navbar';
 import AddProductForm from './components/AddProductForm';
-
+import ProductCatalog from './components/ProductCatalog';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 // const products = function(){
 //   Axios.get("http://localhost:3001/products").then((response) => {
@@ -18,10 +18,16 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 function App() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [productsList, setProductsList] = useState([]);
+  const [productsInCart, setProductsInCart] = useState([]);
   useLayoutEffect(()=>{
     Axios.get("http://localhost:3001/products").then((response) => {
           setProductsList(response.data);
           console.log('ceva ',response.data);
+        });
+    //populeaza cos
+    Axios.get("http://localhost:3001/shoppingcart").then((response) => {
+          setProductsInCart(response.data);
+          console.log('ceva in cos',response.data);
         });
   },[]);
 
@@ -35,20 +41,30 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Navbar  productsList={productsList}  setProductsList={setProductsList} isAdmin={isAdmin} setIsAdmin={setIsAdmin}/>
-        <Switch> 
-        <Route exact path='/login'>
-          <Login />
-        </Route>  
-        <Route exact path='/products/add'>
-          <AddProductForm productsList={productsList}  setProductsList={setProductsList}/>
-        </Route> 
-        </Switch>
+        <Navbar  
+        productsList={productsList}  
+        setProductsList={setProductsList} 
+        isAdmin={isAdmin} 
+        setIsAdmin={setIsAdmin} 
+        productsInCart={productsInCart} 
+        setProductsInCart={setProductsInCart}/>
         <h2><strong>{isAdmin? 'Admin mode':'Regular User mode'}</strong></h2>
 
-        <div className="product-catalog">
-        {productsList.map(product =><ProductCard product={product}  productsList={productsList}  setProductsList={setProductsList}  isAdmin={isAdmin} />) }
-        </div>
+        <Switch> 
+          <Route exact path='/'>
+              <ProductCatalog 
+              productsList={productsList} 
+              isAdmin={isAdmin} 
+              setProductsList={setProductsList}
+              productsInCart={productsInCart}
+              setProductsInCart={setProductsInCart}
+              />
+          </Route>
+            
+          <Route exact path='/products/add'>
+            <AddProductForm productsList={productsList}  setProductsList={setProductsList}/>
+          </Route> 
+        </Switch>
       </div>
     </Router>
 );
