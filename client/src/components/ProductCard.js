@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Axios from 'axios';
-import { Card, Button, Image, Icon, Header, Modal, Form, Input } from 'semantic-ui-react'
+import { Card, Button, Image, Icon, Header, Modal, Form, Input, Comment } from 'semantic-ui-react'
 import { } from 'semantic-ui-react'
 import './ProductCard.css';
 
@@ -13,7 +13,9 @@ const {
     price, 
     category_name,
     product_image,} = props.product;
-    const [open, setOpen] = useState(false);
+    const [openDetails, setOpenDetails] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
+
     const [ categoryName, setCategoryName]=useState(category_name); // default value
     const [ productName, setProductName]=useState(product_name)
     const [ productDetails,setProductDetails]=useState(product_details);
@@ -35,18 +37,18 @@ const {productsList,
         );
       }
     );
-    setOpen(false);
+    setOpenEdit(false);
   };
 
 const editButton = ( <Modal
   closeIcon
-  open={open}
+  open={openEdit}
   trigger={    
     <Button size='mini' inverted color='blue'>      
     <Icon name='pencil alternate' />
   </Button>}
-  onClose={() => setOpen(false)}
-  onOpen={() => setOpen(true)}
+  onClose={() => setOpenEdit(false)}
+  onOpen={() => setOpenEdit(true)}
 >
   <Header icon='archive' content='Adauga un nou produs' />
   <Modal.Content>
@@ -81,7 +83,7 @@ const editButton = ( <Modal
   </Form> 
   </Modal.Content>
   <Modal.Actions>
-    <Button color='red' onClick={() => setOpen(false)}>
+    <Button color='red' onClick={() => setOpenEdit(false)}>
       <Icon name='remove' /> cancel
     </Button>
     <Button color='green' onClick={() => handleEdit(product_id,{category_name:categoryName,
@@ -95,6 +97,63 @@ const editButton = ( <Modal
   </Modal.Actions>
 </Modal>);
 
+const detailsButton = (<Modal
+  onClose={() => setOpenDetails(false)}
+  onOpen={() => setOpenDetails(true)}
+  open={openDetails}
+  trigger={
+  <Button size='mini' primary>      
+  D
+</Button>
+}
+>
+  <Modal.Header>{productName}</Modal.Header>
+  <Modal.Content image>
+    <Image size='medium' src={productImage} wrapped />
+    <Modal.Description>
+      <Header size="tiny" color="grey"><strong>Categorie: </strong>{categoryName}</Header>
+      <Header size="small" color="red"><strong>Pret: </strong> {productPrice} RON</Header>
+      <div><strong>Details:</strong></div>
+      <p>
+        {productDetails}
+      </p>
+      <Button size='mini' inverted color='green'>      
+       <Icon name='cart arrow down' />
+       Adauga in cos
+      </Button>
+    </Modal.Description>
+    <div className='review-section'>
+    <Comment.Group>
+    <Header as='h3' dividing>
+      Reviews
+    </Header>
+
+    <Comment>
+      <Comment.Avatar src='/images/avatar/small/matt.jpg' />
+      <Comment.Content>
+        <Comment.Author as='a'>Matt</Comment.Author>
+        <Comment.Metadata>
+          <div>Today at 5:42PM</div>
+        </Comment.Metadata>
+        <Comment.Text>How artistic!</Comment.Text>
+        <Comment.Actions>
+          <Comment.Action>Reply</Comment.Action>
+        </Comment.Actions>
+      </Comment.Content>
+    </Comment>
+    <Form reply>
+      <Form.TextArea />
+      <Button content='Add Reply' labelPosition='left' icon='edit' primary />
+    </Form>
+  </Comment.Group>
+    </div>  
+  </Modal.Content>
+  <Modal.Actions>
+    <Button color='black' onClick={() => setOpenDetails(false)}>
+      Cancel
+    </Button>
+  </Modal.Actions>
+</Modal>)
 
 const deleteProduct = (id) => {
     Axios.delete(`http://localhost:3001/products/${id}`).then((response) => {
@@ -108,13 +167,13 @@ const deleteProduct = (id) => {
   };
 const extra =(product_id)=> (
 <span className='card-buttons'>
-    <Button size='mini' inverted color='green'>      
+{ !isAdmin && <span id="userButtons">
+  <Button size='mini' inverted color='green'>      
         <Icon name='cart arrow down' />
     </Button>
-    <Button size='mini' primary>      
-        D
-    </Button>
-{ isAdmin &&  <span>
+    {detailsButton}
+  </span>}
+{ isAdmin &&  <span id="adminButtons">
    <Button size='mini' inverted color='red' onClick={()=> deleteProduct(product_id)}>      
        <Icon name='trash alternate' />
     </Button>

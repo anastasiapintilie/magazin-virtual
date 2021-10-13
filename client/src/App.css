@@ -34,3 +34,12 @@
   background-color:#464478;
   color:white;
 }
+
+.ui.modal>.image.content {
+flex-wrap: wrap;
+}
+
+.review-section{
+  margin-top:50px;
+  width: 100%;
+}
