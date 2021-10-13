@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  background-color: #e1e8e7;
+  background-image: url("https://www.transparenttextures.com/patterns/connected.png");
 }
 .product-catalog{
   max-width: 1100px;
@@ -12,8 +14,8 @@
 
 
 .navigation-bar{
-  height: 2.5em;
-  background: #92a2b8;
+  height: 5em;
+  background: #A8BFBD	;
   display: flex;
   flex-direction: row;
   color: black;
@@ -25,7 +27,6 @@
   font-weight: 800;
   align-items: center;
   align-self: center;
-  height: 100%;
   color:darkblue;
   padding: 0 10px 0 10px;
 }
@@ -42,4 +43,13 @@ flex-wrap: wrap;
 .review-section{
   margin-top:50px;
   width: 100%;
+}
+
+.navigation-bar-item {
+  margin-left: 30px;
+  line-height: 4;
+}
+
+.navigation-bar-item:first-child {
+  margin-left: 90px;
 }
